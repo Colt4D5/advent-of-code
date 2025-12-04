@@ -16,7 +16,7 @@ async function partOne(input) {
 
     // loop over inputs
     for await (const row of input) {
-        const highest = getIndexOfHighestValue(row.slice(0, -1))
+        const highest = getIndexOfHighestValue(row.slice(0, -1));
         const secondHighest = getIndexOfHighestValue(row.slice(highest[1] + 1));
         
         joltageArr.push(`${highest[0]}${secondHighest[0]}`);
@@ -24,11 +24,34 @@ async function partOne(input) {
     console.log(joltageArr.reduce((acc, cur) => acc += +cur, 0));
 }
 
-function getIndexOfHighestValue(arr) {
+async function partTwo(input) {
+    let joltageArr = [];
+
+    // loop over inputs
+    for await (const row of input) {
+        let totalJoltage = '';
+        let lastIndex = -1;
+
+        for (let i = -11; i <= 0; i++) {
+            const arr = i < 0 ? row.slice(0, i) : row.slice(0);
+            for (let j = 9; j > 0; j--) {
+                if (arr.slice(lastIndex + 1).indexOf(j) >= 0) {
+                    totalJoltage += j;
+                    lastIndex = arr.slice(lastIndex + 1).indexOf(j) + (lastIndex + 1);
+                    break;
+                }
+            }
+        }
+        joltageArr.push(totalJoltage);
+    }
+    console.log(joltageArr.reduce((acc, cur) => acc += +cur, 0));
+}
+
+function getIndexOfHighestValue(arr, prevIndex, usedIndexes = []) {
   let highest = [0, 0];
   for (let i = 9; i > 0; i--) {
-    if (arr.indexOf(i) >= 0) {
-      highest = [i, arr.indexOf(i)];
+    if (arr.slice(usedIndexes[-1]).indexOf(i) >= 0 && !usedIndexes.includes(arr.slice(prevIndex).indexOf(i))) {
+      highest = [i, arr.indexOf(i) + prevIndex];
       break;
     }
   }
@@ -36,5 +59,11 @@ function getIndexOfHighestValue(arr) {
 }
 
 
-partOne(lines);
+// partOne(lines);
 // partOne(sampleLines);
+
+partTwo(lines);
+// partTwo(sampleLines);
+
+
+
