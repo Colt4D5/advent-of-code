@@ -27,6 +27,33 @@ async function partOne(input) {
     console.log("Total Accessible:", totalAccessible);
 }
 
+async function partTwo(input) {
+    const matrix = input.map(row => row.split(''));
+
+    // loop over inputs
+    let totalAccessible = 0;
+    let currentAccessible = 0;
+    let round = 1;
+    do {
+        currentAccessible = 0;
+        for (let row = 0; row < matrix.length; row++) {
+            for (let col = 0; col < matrix[row].length; col++) {
+                if (matrix[row][col] !== '@') continue;
+                const surroundingAtCount = checkSurroundingMatrices(matrix, row, col);
+                if (surroundingAtCount < 4) {
+                    matrix[row][col] = 'X';
+                    totalAccessible++;
+                    currentAccessible++;
+                }
+            }            
+        }
+        console.log(totalAccessible, round);
+        round++;
+    } while (currentAccessible > 0);
+    console.log(matrix.map(row => row.join('')).join('\n'));
+    console.log("Total Accessible:", totalAccessible);
+}
+
 function checkSurroundingMatrices(matrix, row, col) {
     let totalAccessible = 0;
     for (let y = -1; y <= 1; y++) {
@@ -46,4 +73,6 @@ function checkSurroundingMatrices(matrix, row, col) {
     return totalAccessible;
 }
 
-partOne(input);
+// partOne(input);
+
+partTwo(input);
