@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
 
-export function readInput(path) {
+export async function readInput(path) {
   return readFileSync(path, { encoding: 'utf8', flag: 'r' });
 }
