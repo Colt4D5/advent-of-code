@@ -90,7 +90,7 @@ function partTwo() {
     let targetRow = Array(matrix.length).fill(1);
 
     for (let row of matrix) {
-        for (let [col, char] of Array.from(row).entries()) {
+        for (let [col, char] of row.split('').entries()) {
             if (char === '^') {
                 targetRow[col] = targetRow[col - 1] + targetRow[col + 1];
             }
