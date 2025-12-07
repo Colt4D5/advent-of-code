@@ -2,7 +2,7 @@ import { readInput } from '../../utils.js';
 
 // read lines
 let inputFilePath = 'input.txt';
-inputFilePath = 'sample-input.txt';
+// inputFilePath = 'sample-input.txt';
 
 let input = await readInput(inputFilePath);
 
@@ -84,4 +84,21 @@ function partOne() {
     }
 }
 
-partOne();
+function partTwo() {
+    const matrix = input.split('\n').reverse();
+
+    let targetRow = Array(matrix.length).fill(1);
+
+    for (let row of matrix) {
+        for (let [col, char] of Array.from(row).entries()) {
+            if (char === '^') {
+                targetRow[col] = targetRow[col - 1] + targetRow[col + 1];
+            }
+        }
+    }
+
+    console.log("Timelines:", targetRow[matrix[matrix.length - 1].indexOf('S')]);
+}
+
+// partOne();
+partTwo();
